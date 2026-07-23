@@ -7,7 +7,7 @@ from google.genai import types
 class GeminiService:
     def __init__(self) -> None:
         api_key = os.getenv("GEMINI_API_KEY", "").strip()
-        model = os.getenv("GEMINI_MODEL", "gemini-3.1-flash").strip()
+        model = os.getenv("GEMINI_MODEL", "gemini-3.6-flash").strip()
 
         if not api_key:
             raise ValueError("GEMINI_API_KEY is missing from the .env file.")
