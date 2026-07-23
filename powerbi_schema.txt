@@ -1,0 +1,90 @@
+POWER BI MODEL: E-commerce Sales
+
+TABLE: Orders
+Columns:
+- OrderDate
+- CustomerID
+- ProductID
+- Quantity
+- UnitPrice
+- OrderID
+- Discount
+- ShippingCost
+- Region
+- PaymentMethod
+
+TABLE: Returns
+Columns:
+- Return_ID
+- Order_ID
+- Return_Date
+- Return_Reason
+
+TABLE: Products
+Columns:
+- productid
+- ProductName
+- Category
+- SubCategory
+- UnitCost
+- UnitPrice
+
+TABLE: Customers
+Columns:
+- Customer_ID
+- First_Name
+- Last_Name
+- Email
+- City
+- Country
+
+TABLE: Region Info
+Columns:
+- Region_Code
+- Region_Name
+
+RECOMMENDED RELATIONSHIPS:
+- Customers[Customer_ID] one-to-many Orders[CustomerID]
+- Products[productid] one-to-many Orders[ProductID]
+- Region Info[Region_Code] one-to-many Orders[Region]
+- Orders[OrderID] one-to-many Returns[Order_ID]
+
+DATA-TYPE GUIDANCE:
+- Orders[OrderDate] is a date.
+- Returns[Return_Date] is a date.
+- Orders[Quantity] is a whole number.
+- Orders[UnitPrice] is a decimal/currency value.
+- Orders[Discount] is a percentage stored as a whole number, such as 10 for 10%.
+- Orders[ShippingCost] is a decimal/currency value.
+- Products[UnitCost] and Products[UnitPrice] are decimal/currency values.
+- Orders[OrderID] and Returns[Order_ID] are matching order identifiers.
+
+BUSINESS RULES:
+- Gross Sales = Quantity × UnitPrice.
+- Discount Amount = Gross Sales × Discount ÷ 100.
+- Net Product Sales = Gross Sales − Discount Amount.
+- Order Revenue including shipping = Net Product Sales + ShippingCost.
+- Product Cost = Quantity × related Products[UnitCost].
+- Gross Profit = Net Product Sales − Product Cost.
+- A returned order is an order whose Orders[OrderID] exists in Returns[Order_ID].
+- Distinct customers should be counted using Customers[Customer_ID] or Orders[CustomerID], depending on the visual context.
+- Distinct orders should be counted using Orders[OrderID].
+- Region analysis should use Region Info[Region_Name] when the relationship is active.
+- Product analysis should use Products[Category], Products[SubCategory], and Products[ProductName].
+- Customer geography analysis should use Customers[Country] and Customers[City].
+
+SAMPLE MEASURES THE MODEL MAY NEED:
+- Total Orders
+- Total Quantity
+- Gross Sales
+- Discount Amount
+- Net Sales
+- Shipping Revenue
+- Total Revenue
+- Total Product Cost
+- Gross Profit
+- Gross Margin %
+- Returned Orders
+- Return Rate %
+- Average Order Value
+- Distinct Customers
